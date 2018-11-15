@@ -19,7 +19,7 @@ EXT_keys = EXT.keys()
 
 def get_EXT(lang):
     '''
-    Returns the key of language in which cade is written
+    Returns the key of language in which it is written
     '''
     for key in EXT_keys:
         if key in lang:
@@ -44,7 +44,6 @@ def load_url(url):
         data = data['result']
 
     return data
-
 
 def load_user_data(handle='kashyap_archit', start=1, count=MAX):
     '''
@@ -100,26 +99,8 @@ def load_user_data(handle='kashyap_archit', start=1, count=MAX):
             contest_id = 0
         submission_time = item['creationTimeSeconds']
         relative_time = item['relativeTimeSeconds']
-        # Problem Data
-        problem_index = item['problem']['index']
-        try:
-            problem_name = item['problem']['name']
-        except:
-            problem_name = ''
-        problem_type = item['problem']['type']
-        try:
-            points = item['problem']['points']
-        except:
-            points = 0
-        tags = item['problem']['tags']
-        # Author data
-        if len(item['author']['members'])>1:
-            team = 1
-        else:
-            team = 0        
-        participant_type = item['author']['participantType']
-
-        language = get_EXT(item['programmingLanguage'])
+        # language = get_EXT(item['programmingLanguage'])
+        language = item['programmingLanguage']
         try:
             verdict = item['verdict']
         except:
@@ -127,6 +108,29 @@ def load_user_data(handle='kashyap_archit', start=1, count=MAX):
         test_case = item['passedTestCount']
         time = item['timeConsumedMillis']
         memory = item['memoryConsumedBytes']/1024
+        
+        # Problem Data
+        problem = item['problem']
+        problem_index = problem['index']
+        try:
+            problem_name = problem['name']
+        except:
+            problem_name = ''
+        problem_type = problem['type']
+        try:
+            points = problem['points']
+        except:
+            points = 0
+        tags = problem['tags']
+        
+        # Author data
+        author = item['author']
+        if len(author['members'])>1:
+            team = 1
+        else:
+            team = 0        
+        participant_type = author['participantType']
+
         # add row
         df.loc[i] = [solution_id,contest_id,submission_time,relative_time,problem_index,problem_name,problem_type,points,tags,team,participant_type,language,verdict,test_case,time,memory]
         i += 1
@@ -171,6 +175,7 @@ def user_rating_change(handle='kashyap_archit'):
         rank = item['rank']
         old = item['oldRating']
         new = item['newRating']
+        
         # add row
         df.loc[i] = [contest_id,contest_name,rank,old,new]
         i += 1
