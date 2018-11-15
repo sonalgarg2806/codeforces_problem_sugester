@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly
+import plotly.offline as py
+import plotly.graph_objs as go  
 
 ERROR_LOADING_DATA = 1
 
@@ -36,5 +38,8 @@ def tags_chart(handle='kashyap_archit'):
         for x in item:
             tag[x] = tag.get(x, 0) + 1
     
-    print (tag)
+    labels = [x for x in tag.keys()]
+    values = [tag[x] for x in tag.keys()]
+    trace = go.Pie(labels=labels, values=values)
+    py.plot([trace], image='png', image_filename='tag_count_chart', auto_open=False, filename=(handle+'-tag.html'))
     return 0
