@@ -1,26 +1,15 @@
+import load_data as ld
 import numpy as np
 import pandas as pd
 import plotly
 import plotly.offline as py
 import plotly.graph_objs as go  
 
-ERROR_LOADING_DATA = 1
-
-def load_data(handle):
-    '''
-    Loads user data from csv file given the handle name 
-    '''
-    try:
-        df = pd.read_csv(handle+'.csv')
-    except:
-        return ERROR_LOADING_DATA
-    return df
-
 def tags_chart(handle='kashyap_archit'):
     '''
     Results out pie chart containing tags based submissions
     '''
-    data = load_data(handle)
+    data = ld.load_data(handle)
     if type(data) is int:
         print ("Error while loading csv file")
         return 0
