@@ -10,9 +10,9 @@ def tags_chart(handle='kashyap_archit'):
     Results out pie chart containing tags based submissions
     '''
     data = ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     data = data[data.verdict=='OK']
     data.drop_duplicates(subset=['contest_id','problem_index'], inplace=True)

@@ -3,18 +3,18 @@ import pandas as pd
 
 def tried(handle):
     data = ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     tried = data[['contest_id', 'problem_index']].astype(str).sum(axis=1).unique()
     return (len(tried))
 
 def solved(handle):
     data = ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     filtered_file = data[data.verdict=='OK']
     unique_data = filtered_file[['contest_id', 'problem_index']].astype(str).sum(axis=1).unique()
@@ -22,9 +22,9 @@ def solved(handle):
     
 def unsolved_problem(handle):
     data=ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     filtered_file=data[data.verdict=='OK']
     solved=filtered_file[['contest_id', 'problem_index']].astype(str).sum(axis=1).unique()
@@ -37,9 +37,9 @@ def unsolved_problem(handle):
 
 def number_of_contest(handle):
     data=ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     filtered_file=data[data.participant_type=='CONTESTANT']
     all_cont=filtered_file['contest_id'].astype(str).unique()
@@ -48,9 +48,9 @@ def number_of_contest(handle):
 
 def max_attempts_on_single_problem(handle):
     data=ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     dic={}
     maxi=0
@@ -63,9 +63,9 @@ def max_attempts_on_single_problem(handle):
 
 def ac_one_submission(handle):
     data=ld.load_data(handle)
-    if type(data) is int:
+    if data is None:
         print ("Error while loading csv file")
-        return 0
+        return None
 
     dic={}
     coun=0

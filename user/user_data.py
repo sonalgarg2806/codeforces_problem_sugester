@@ -4,7 +4,6 @@ import urllib.request as url_req
 import pandas as pd
 import numpy as np
 
-ERROR_LOADING = 3
 MAX = 100000
 
 base_url = 'http://codeforces.com/api/'
@@ -33,13 +32,13 @@ def load_url(url):
     try:
         json_obj = url_req.urlopen(url)
     except:
-        return ERROR_LOADING
+        return None
 
     data = json.load(json_obj)
     
     if data['status'] != 'OK':
         print (tab + "Error while loading user data: " + data['comment'])
-        return ERROR_LOADING
+        return None
     else:
         data = data['result']
 
@@ -70,22 +69,10 @@ def load_user_data(handle='kashyap_archit', start=1, count=MAX):
         14.memory (in kilo-bytes) 
     '''
     print("Loading user data for "+handle)
-    # try:
-    #     json_obj = url_req.urlopen(user_status_url.format(handle=handle, start=start, count=count))
-    # except:
-    #     print(tab+"Error while loading user data: Either user handle is wrong or the start number is wrong.")
-    #     return ERROR_LOADING
-
-    # data = json.load(json_obj)
-    
-    # if data['status'] != 'OK':
-    #     print (tab + "Error while loading user data: " + data['comment'])
-    #     return ERROR_LOADING
-    # else:
-    #     data = data['result']
     url = user_status_url.format(handle=handle, start=start, count=count)
     data = load_url(url)
-
+    if data is None:
+        return None
 
     df = pd.DataFrame(columns=['solution_id','contest_id','submission_time','realtive_time','problem_index','problem_name','problem_type','points','tags','team','participant_type','language','verdict','test_case','time','memory'])
     
@@ -149,21 +136,10 @@ def user_rating_change(handle='kashyap_archit'):
         5. new (rating)
     '''
     print("Loading user rating changes for "+handle)
-    # try:
-    #     json_obj = url_req.urlopen(user_rating_url.format(handle=handle))
-    # except:
-    #     print(tab+"Error while loading user data: Please enter valid user handle.")
-    #     return ERROR_LOADING
-
-    # data = json.load(json_obj)
-    
-    # if data['status'] != 'OK':
-    #     print (tab + "Error while loading user data: " + data['comment'])
-    #     return ERROR_LOADING
-    # else:
-    #     data = data['result']
     url = user_rating_url.format(handle=handle)
     data = load_url(url)
+    if data is None:
+        return None
 
     df = pd.DataFrame(columns=['contest_id','contest_name','rank','old','new'])
     
