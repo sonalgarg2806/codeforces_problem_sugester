@@ -7,7 +7,6 @@ import plotly.graph_objs as go
 def levels(handle):
     data = ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     ver_count = data['problem_index'].value_counts()

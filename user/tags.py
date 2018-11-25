@@ -10,7 +10,6 @@ def tags_chart(handle='kashyap_archit'):
     '''
     data = ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     data = data[data.verdict=='OK']

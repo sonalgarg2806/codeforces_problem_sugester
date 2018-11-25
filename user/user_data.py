@@ -32,12 +32,13 @@ def load_url(url):
     try:
         json_obj = url_req.urlopen(url)
     except:
+        print (tab + "Error while fetching data")
         return None
 
     data = json.load(json_obj)
     
     if data['status'] != 'OK':
-        print (tab + "Error while loading user data: " + data['comment'])
+        print (tab + "Error while fetching data: " + data['comment'])
         return None
     else:
         data = data['result']

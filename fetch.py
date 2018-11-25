@@ -1,6 +1,7 @@
 import json
 import urllib.request as url_req
 import pandas as pd
+import user.user_data as ud
 
 tab = '    '
 url_base = 'https://codeforces.com/api/'
@@ -11,17 +12,9 @@ def list_all_contest():
     '''
     url = url_base+'contest.list?gym=false'
     print("Fetching contest list")
-    try:
-        json_obj = url_req.urlopen(url)
-    except:
+    data = ud.load_url(url)
+    if data is None:
         return None
-    data = json.load(json_obj)
-
-    if data['status'] != 'OK':
-        print (tab + "Error while fetching data: " + data['comment'])
-        return None
-    else:
-        data = data['result']
 
     data = pd.DataFrame.from_dict(data)
     data = data[data.phase=='FINISHED']['id']
@@ -34,17 +27,9 @@ def get_solved(contestID):
     url = url_base +'contest.standings?contestId=' + str(contestID) + '&from=1&count=99999&showUnofficial=false'
     # print("Loading contest data", contestID)
     print(1, contestID)
-    try:
-        json_obj = url_req.urlopen(url)
-    except:
+    data = ud.load_url(url)
+    if data is None:
         return None
-    data = json.load(json_obj)
-
-    if data['status'] != 'OK':
-        print (tab + "Error while fetching data: " + data['comment'])
-        return None
-    else:
-        data = data['result']
 
     # contest = data['contest'] # contest description
     problems = data['problems'] # all the problems in the contest
@@ -67,17 +52,9 @@ def get_solved(contestID):
     url = url_base + 'contest.ratingChanges?contestId=' + str(contestID)
     # print("Loading ratings of user who attempted the contest")
     print(2)
-    try:
-        json_obj = url_req.urlopen(url)
-    except:
+    data = ud.load_url(url)
+    if data is None:
         return None
-    data = json.load(json_obj)
-
-    if data['status'] != 'OK':
-        print (tab + "Error while fetching data: " + data['comment'])
-        return None
-    else:
-        data = data['result']
     
     if len(data)==0:
         print(tab+'Contest data not available',contestID)

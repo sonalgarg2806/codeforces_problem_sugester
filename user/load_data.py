@@ -8,5 +8,6 @@ def load_data(handle):
     try:
         df = pd.read_csv(handle+'.csv')
     except:
+        print("    Error while loading data")
         return None
     return df

@@ -26,7 +26,7 @@ print ('total contest ',dt.number_of_contest(handle))
 print ('max_attempts_on_single_problem ',dt.max_attempts_on_single_problem(handle))
 print ('ac_one_submission',dt.ac_one_submission(handle))
 
-if os.path.isfile('problem_rating.csv')==False:
+if os.path.isfile('problem_rating.csv')==True:
     contest_list = fd.list_all_contest()
     df = pd.DataFrame(columns=["contestID", "problemID", "problemRating"])
 
@@ -35,4 +35,4 @@ if os.path.isfile('problem_rating.csv')==False:
         if temp is not None:
             df = df.append(temp)
 
-    df.to_csv('problem_rating.csv')
+    # df.to_csv('problem_rating.csv')

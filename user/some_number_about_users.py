@@ -4,7 +4,6 @@ import pandas as pd
 def tried(handle):
     data = ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     tried = data[['contest_id', 'problem_index']].astype(str).sum(axis=1).unique()
@@ -13,7 +12,6 @@ def tried(handle):
 def solved(handle):
     data = ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     filtered_file = data[data.verdict=='OK']
@@ -23,7 +21,6 @@ def solved(handle):
 def unsolved_problem(handle):
     data=ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     filtered_file=data[data.verdict=='OK']
@@ -38,7 +35,6 @@ def unsolved_problem(handle):
 def number_of_contest(handle):
     data=ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     filtered_file=data[data.participant_type=='CONTESTANT']
@@ -49,7 +45,6 @@ def number_of_contest(handle):
 def max_attempts_on_single_problem(handle):
     data=ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
         return None
 
     dic={}
@@ -64,7 +59,7 @@ def max_attempts_on_single_problem(handle):
 def ac_one_submission(handle):
     data=ld.load_data(handle)
     if data is None:
-        print ("Error while loading csv file")
+        
         return None
 
     dic={}
