@@ -15,5 +15,5 @@ def verdict_graph(handle='kashyap_archit'):
     values = ver_count.values
     trace = go.Pie(labels=labels, values=values)
     fig = {'data':[trace], 'layout':{'title':"Count vs verdict"}}
-    py.plot(fig, auto_open=False, filename=(handle+'-verdict.html'))
+    py.plot(fig, auto_open=False, filename=('data/'+handle+'-verdict.html'))
     return 0

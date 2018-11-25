@@ -15,5 +15,5 @@ def language_graph(handle='kashyap_archit'):
     values = ver_count.values
     trace = go.Pie(labels=labels, values=values)
     fig = {'data':[trace], 'layout':{'title':"Count vs language"}}
-    py.plot(fig, auto_open=False, filename=(handle+'-language.html'))
+    py.plot(fig, auto_open=False, filename=('data/'+handle+'-language.html'))
     return 0
