@@ -3,6 +3,8 @@ import json
 import urllib.request as url_req
 import pandas as pd
 import numpy as np
+import user.load_data as ld
+from datetime import datetime
 
 MAX = 100000
 
@@ -54,15 +56,15 @@ def load_user_data(handle='kashyap_archit', start=1, count=MAX):
     Output : returns a dataframe containing
         1. solution_id
         2. contest_id
-        3. submission_time (time at which submission was made)
-        4. realtive_time (time after contest at which submission was made)
+        3. submission_time (unix time at which submission was made)
+        4. relative_time (unix time after contest at which submission was made)
         3. problem_index
         4. problem_name (if available)
-        5. problem_type
+        5. problem_type (Enum: PROGRAMMING, QUESTION)
         6. points (if the question is not rated then it is 0)
         7. tags
         8. team (individual or team)
-        9. participant_type (virtual, contest, practice)
+        9. participant_type (CONTESTANT, PRACTICE, VIRTUAL, MANAGER, OUT_OF_COMPETITION)
         10.language
         11.verdict
         12.test_case (number of test cases passed)
@@ -75,7 +77,7 @@ def load_user_data(handle='kashyap_archit', start=1, count=MAX):
     if data is None:
         return None
 
-    df = pd.DataFrame(columns=['solution_id','contest_id','submission_time','realtive_time','problem_index','problem_name','problem_type','points','tags','team','participant_type','language','verdict','test_case','time','memory'])
+    df = pd.DataFrame(columns=['solution_id','contest_id','submission_time','relative_time','problem_index','problem_name','problem_type','points','tags','team','participant_type','language','verdict','test_case','time','memory'])
     
     print(tab+"Creating DataFrame")
     i = 0
@@ -157,3 +159,28 @@ def user_rating_change(handle='kashyap_archit'):
         df.loc[i] = [contest_id,contest_name,rank,old,new]
         i += 1
     return df
+
+def data_process(handle):
+    '''
+    Results out a processed dataframe to work on futher.
+    Contains:
+        1. solution_id(as index)
+        2. contest_id
+        3. time (datetime, year-month-day)
+        4. problem_index
+        5. tags
+        6. participant_type (CONTESTANT, PRACTICE, VIRTUAL, MANAGER, OUT_OF_COMPETITION)
+        7. verdict 
+    '''
+    data = ld.load_data(handle)
+    if data is None:
+        return None
+    
+    
+    data.set_index('solution_id', inplace=True)
+    
+    data.drop(columns=['time','memory','test_case','language','team','points','problem_type','problem_name','relative_time','Unnamed: 0'], inplace=True)
+    data.rename(columns={"submission_time":"time"}, inplace=True)
+    # data['time'] = data['time'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d'))
+    # data['time'] = data['time'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d').date())
+    return data

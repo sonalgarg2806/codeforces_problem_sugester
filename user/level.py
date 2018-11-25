@@ -14,5 +14,5 @@ def levels(handle):
     values = ver_count.values
     trace = go.Bar(x=labels, y=values)
     fig = {'data':[trace], 'layout':{'title':"Count vs problem level"}}
-    py.plot(fig, auto_open=False, filename=(handle+'-problem_level.html'))
+    py.plot(fig, auto_open=False, filename=('data/'+handle+'-problem_level.html'))
     return 0

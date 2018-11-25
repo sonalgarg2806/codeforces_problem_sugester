@@ -3,22 +3,31 @@ import user.tags as tg
 import user.verdict as vd
 import user.level as lv
 import user.language as lg
+import user.timeRating as tr
 import user.some_number_about_users as dt
 import fetch as fd
 import elo
 import pandas as pd
 import warnings
 import os
+import shutil
+import time
 
 warnings.filterwarnings("ignore")
-handle = 'indian_ocean7'
+if not os.path.exists('data'):
+    os.makedirs('data')
 
-df = ud.load_user_data(handle)  
-df.to_csv(handle+'.csv')
+
+handle = 'Ashishgup'
+
+df = ud.load_user_data(handle)
+df.to_csv('data/'+handle+'.csv')
+
 tg.tags_chart(handle)
 vd.verdict_graph(handle)
 lv.levels(handle)
 lg.language_graph(handle)
+tr.time_graph(handle)
 print ('all tried ',dt.tried(handle))
 print ('all solved ',dt.solved(handle))
 print ('all unsolved ',dt.unsolved_problem(handle))
@@ -38,3 +47,5 @@ if os.path.isfile('problem_rating.csv')==False:
     df = elo.add_tags()
     df.to_csv('problem_rating.csv')
 
+
+# shutil.rmtree('data', ignore_errors=False) # to remove the data directory
