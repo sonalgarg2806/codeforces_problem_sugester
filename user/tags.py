@@ -1,7 +1,6 @@
 import user.load_data as ld
 import numpy as np
 import pandas as pd
-import plotly
 import plotly.offline as py
 import plotly.graph_objs as go  
 
@@ -30,5 +29,6 @@ def tags_chart(handle='kashyap_archit'):
     labels = [x for x in tag.keys()]
     values = [tag[x] for x in tag.keys()]
     trace = go.Pie(labels=labels, values=values)
-    py.plot([trace], image='png', image_filename='tag_count_chart', auto_open=False, filename=(handle+'-tag.html'))
+    fig = {'data':[trace], 'layout':{'title':"Count vs tag"}}
+    py.plot(fig, auto_open=False, filename=(handle+'-tag.html'))
     return 0
