@@ -32,7 +32,8 @@ def get_solved(contestID):
     Retuns the questions done by each contestant in the given contest and the rating of the user.
     '''
     url = url_base +'contest.standings?contestId=' + str(contestID) + '&from=1&count=99999&showUnofficial=false'
-    print("Loading contest data")
+    # print("Loading contest data", contestID)
+    print(1, contestID)
     try:
         json_obj = url_req.urlopen(url)
     except:
@@ -64,7 +65,8 @@ def get_solved(contestID):
         
     # get rating of users who attempted the contest 
     url = url_base + 'contest.ratingChanges?contestId=' + str(contestID)
-    print("Loading ratings of user who attempted the contest")
+    # print("Loading ratings of user who attempted the contest")
+    print(2)
     try:
         json_obj = url_req.urlopen(url)
     except:
@@ -78,7 +80,7 @@ def get_solved(contestID):
         data = data['result']
     
     if len(data)==0:
-        print(tab+'Contest data not available')
+        print(tab+'Contest data not available',contestID)
         return None
 
     rating = {}

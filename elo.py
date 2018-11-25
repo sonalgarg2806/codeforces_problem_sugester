@@ -37,9 +37,10 @@ def get_contest_elo(contestID):
     except:
         return None
     
-    if data.shape[0] < 20:
+    if (data is None) or (data.shape[0] < 20):
         return None
-    print("Calculating elo rating for",contestID)
+    # print("Calculating elo rating for",contestID)
+    print(3, contestID)
 
     contestID = data.contestID[0]
     problem = data.problemID.unique()
