@@ -4,6 +4,7 @@ import user.verdict as vd
 import user.level as lv
 import user.language as lg
 import user.timeRating as tr
+import user.tagsQrating as tq
 import user.some_number_about_users as dt
 import fetch as fd
 import elo
@@ -17,7 +18,6 @@ warnings.filterwarnings("ignore")
 if not os.path.exists('data'):
     os.makedirs('data')
 
-
 handle = 'Ashishgup'
 
 df = ud.load_user_data(handle)
@@ -28,6 +28,7 @@ vd.verdict_graph(handle)
 lv.levels(handle)
 lg.language_graph(handle)
 tr.time_graph(handle)
+tq.box_plot(handle)
 print ('all tried ',dt.tried(handle))
 print ('all solved ',dt.solved(handle))
 print ('all unsolved ',dt.unsolved_problem(handle))

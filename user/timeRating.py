@@ -18,7 +18,7 @@ def time_graph(handle):
     data = data[data.verdict=='OK']
     data.drop(columns='verdict', inplace=True)
     data['qRating'] = [0]*len(data)
-
+    # load question rating
     pr = pd.read_csv("problem_rating.csv")    
     pr.drop(columns='Unnamed: 0', inplace=True)
     pr['idx'] = pr['contestID'].map(str)+pr['problemID']
@@ -40,11 +40,14 @@ def time_graph(handle):
     virtual = data[data.participant_type=='VIRTUAL']
     ouc = data[data.participant_type=='OUT_OF_COMPETITION']
     
-    t0 = go.Scatter(x=contest['time'], y=contest['qRating'], mode='lines+markers', name='CONTESTANT')
-    t1 = go.Scatter(x=practice['time'], y=practice['qRating'], mode='markers', name='PRACTICE',opacity=0.5)
-    t2 = go.Scatter(x=virtual['time'], y=virtual['qRating'], mode='markers', name='VIRTUAL',opacity=0.7)
-    t3 = go.Scatter(x=ouc['time'], y=ouc['qRating'], mode='markers', name='OUT_OF_COMPETITION',opacity=0.5)
-    fig = {'data':[t0,t1,t2,t3], 'layout':{'title':"Problem Rating vs time(grouped by participant type)"}}
+    t0 = go.Scatter(x=contest['time'], y=contest['qRating'], mode='lines+markers', name='CONTESTANT',stream=dict(maxpoints=10000))
+    t1 = go.Scatter(x=practice['time'], y=practice['qRating'], mode='markers', name='PRACTICE',opacity=0.5,stream=dict(maxpoints=10000))
+    t2 = go.Scatter(x=virtual['time'], y=virtual['qRating'], mode='markers', name='VIRTUAL',opacity=0.7,stream=dict(maxpoints=10000))
+    t3 = go.Scatter(x=ouc['time'], y=ouc['qRating'], mode='markers', name='OUT_OF_COMPETITION',opacity=0.5,stream=dict(maxpoints=10000))
+    trace = [t0,t1,t2,t3]
+
+    layout = go.Layout(title='Problem Rating vs time(grouped by participant type)', yaxis=dict(autorange=True, showgrid=True, gridcolor='rgb(255, 255, 255)', gridwidth=1), paper_bgcolor='rgb(243, 243, 243)',plot_bgcolor='rgb(243, 243, 243)')
+    fig = go.Figure(data=trace, layout=layout)
     py.plot(fig, auto_open=False, filename=('data/'+handle+'-timeQRating.html'))
     return 0
 
