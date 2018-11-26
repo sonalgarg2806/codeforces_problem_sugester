@@ -28,6 +28,7 @@ def tags_chart(handle='kashyap_archit'):
     labels = [x for x in tag.keys()]
     values = [tag[x] for x in tag.keys()]
     trace = go.Pie(labels=labels, values=values)
-    fig = {'data':[trace], 'layout':{'title':"Count vs tag"}}
+    layout = go.Layout(title="Count vs tag", paper_bgcolor='rgb(243, 243, 243)',plot_bgcolor='rgb(243, 243, 243)')
+    fig = go.Figure(data=[trace], layout=layout)
     py.plot(fig, auto_open=False, filename=('data/'+handle+'-tag.html'))
     return 0
